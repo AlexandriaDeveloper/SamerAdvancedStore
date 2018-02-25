@@ -1,0 +1,140 @@
+﻿<section class="mainbar text-right" data-ng-controller="staticprofits as vm">
+    <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+        <div data-cc-spinner></div>
+        <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            {{vm.data.productName}}
+        </div>
+        <div class="panel-body">
+         
+            <div class="col-xs-4">
+                {{vm.data.stockQuantity}} كمية المخزون
+
+            </div>
+            <div class="col-xs-4">
+                {{vm.data.totalSoldQuantity}} كمية المبياعات
+
+            </div>
+            <div class="col-xs-4">
+                {{vm.data.totalBoughtQuantity}} كمية المشتريات
+
+            </div>
+            <div class="col-xs-4">
+                {{vm.data.stockCoast}} قيمة المخزون
+
+            </div>
+            <div class="col-xs-4">
+                {{vm.data.totalSold}} قيمة المبياعات
+
+            </div>
+            <div class="col-xs-4">
+                {{vm.data.totalBought}} قيمة المشتريات
+
+            </div>
+            
+    
+         
+            <div class="col-xs-12 text-center" ng-if="vm.data.totalProfitLoss >= 0" >
+                {{vm.data.totalProfitLoss}} الأرباح المحققة
+
+            </div>
+            
+            <div class="col-xs-12 text-center" ng-if="vm.data.totalProfitLoss < 0" >
+                {{vm.data.totalProfitLoss}} الخسائر المحققة
+
+            </div>
+        </div>
+        
+
+    </div>
+
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>المبيعات</th>
+
+            <th>المشتريات</th>
+        </tr>
+        <tr>
+
+
+            <td>
+                <table class="table  table-striped">
+                    <tr ng-repeat=" item in vm.data.soldOrders">
+
+
+
+
+                        <td>
+                            {{item.soldQuantity}} كمية المبيعات <br/>
+                            {{item.soldPrice}} قيمة المبيعات
+
+
+                        </td>
+                        <td>
+
+                            <a href="#/selles/orders/orderdetails/{{item.orderId}}" class="btn btn-primary"> فاتورة البيع</a>
+
+                        </td>
+                    </tr>
+
+
+
+                </table>
+            </td>
+
+
+
+
+
+            <td>
+                <table class="table  table-striped">
+
+                    <tr ng-repeat=" item in vm.data.boughtOrders">
+
+
+                        <td>
+                            {{item.boughtQuantity}} كمية المشتريات<br/>
+                            {{item.boughtPrice}} قيمة المشتريات
+
+                        </td>
+                        <td>
+
+                            <a href="#/data/invintory/products/{{item.invintoryId}}" class="btn btn-primary"> أمر الشراء</a>
+
+                        </td>
+                    </tr>
+
+
+
+
+
+                </table>
+            </td>
+        </tr>
+        <tfoot>
+        <tr>
+
+            <!--<td colspan="3">
+                {{vm.data.profit}} الأرباح المحققة
+                <br/>
+             
+                {{vm.data.productsCoastInInvintory}}تكلفة المخزون الفير مباع
+                <br/>
+                الكمية الموجودة بالمخزن {{vm.data.productQuantity}}
+
+
+
+            </td>-->
+        </tr>
+
+
+
+        </tfoot>
+
+
+    </table>
+</section>

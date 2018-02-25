@@ -1,0 +1,83 @@
+﻿
+<section class="mainbar" data-ng-controller="category as vm">
+    <div class="container-fluid">
+        
+        <div class="well well-lg text-right">
+            <h2 class="blue">
+                {{vm.header.title}}
+                <i class="{{vm.header.logo}}"></i>
+            </h2>
+        </div>
+        <div class="alert  alert-notify  text-right" role="alert">
+            {{vm.message}}
+        </div>
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+       
+        <div class="col-md-12 text-right">
+            <button type="button" class="btn    btn-primary" ng-click="vm.createNew()" 
+                    data-toggle="modal" data-target="#myModal"> إضافة صنف جديد 
+                <i class="fa fa-pencil"></i>
+            </button>
+            <table  st-table="displayedCollection" st-safe-src="vm.rowCollection" class="table table-bordered  table-striped table-hover table-responsive  ">
+                <thead >
+      
+                <tr>
+                    <th class="col-xs-10 text-right">الصنف</th>
+                    <th class="col-xs-2 text-right"></th>
+
+
+
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="row in displayedCollection">
+        
+                    <td>{{row.name}}</td>
+                    <td>
+                        <div class="input-group-btn">
+                       
+
+                            <button type="button" 
+                                    class="btn btn-danger btn-xs" 
+                                    ng-click="vm.getCategory(row.id)"
+                                    data-toggle="modal" 
+                                    data-target="#deleteModal">حذف
+                                <i class="fa fa-remove fa-xs"></i>
+                            </button>
+                            <button type="button"
+                                    ng-click="vm.getCategory(row.id)" 
+                                    class="btn btn-primary btn-xs" 
+                                    data-toggle="modal" 
+                                    data-target="#myModal">تعديل
+                          
+                            </button>
+                        </div>
+                    </td>
+
+
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="5" class="text-center">
+                        <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    <div data-ng-include="'/app/controller/data/category/meta/createmodal.html'" ></div>
+    
+    <div data-ng-include="'/app/controller/data/category/meta/deletemodal.html'"></div>
+</section>

@@ -1,0 +1,46 @@
+﻿
+<section class="mainbar" data-ng-controller="data as vm">
+    <div class="well well-lg text-right">
+        <h2 class="blue">
+            {{vm.title}}
+        </h2>
+    </div>
+    <div class="col-md-12">
+        <ul class="today-datas text-center">
+            
+            
+            
+            <li class="{{item.dataclass}}" ng-repeat="item in vm.data">
+                <a href="{{item.link}}">
+                <div class="pull-left"><i class="{{item.logo}}"></i>
+                </div>
+                <div class="datas-text pull-right">
+                    <span class="bold">{{item.name}}</span> {{item.desc}}
+                </div>
+                <div class="clearfix"></div>
+                </a>
+            </li>  
+            
+            
+
+            <!--<li class="blightblue">
+                <div class="pull-left"><i class="fa fa-plane"></i>
+                </div>
+                <div class="datas-text pull-right">
+                    <span class="bold">May 18 - 19, 2015</span> Castle Resort, Neverland
+                </div>
+                <div class="clearfix"></div>
+            </li>
+
+            <li class="borange">
+                <div class="pull-left"><i class="fa fa-envelope"></i>
+                </div>
+                <div class="datas-text pull-right">
+                    <span class="bold ng-binding">"2018-01-04T20:42:25.3470531Z"</span> Messages
+                </div>
+                <div class="clearfix"></div>
+            </li>-->
+
+        </ul>
+    </div>
+</section>

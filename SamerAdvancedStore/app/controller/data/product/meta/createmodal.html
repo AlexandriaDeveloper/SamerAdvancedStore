@@ -1,0 +1,110 @@
+﻿<div id="myModal" class="modal fade text-right " role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="left">
+            <button type="button" class="close left" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="panel panel-default">
+            <form class="form-horizontal" role="form">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{vm.header.title}}</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group ">
+
+                        <div class="col-sm-10">
+
+
+                            <input type="text" class="form-control text-right" id="productName" name="productName" ng-model="vm.product.productName">
+                        </div>
+                        <label class="col-sm-2 control-label" for="productName">الأسم</label>
+                    </div>
+
+                    <div class="form-group ">
+              
+                        <div class="col-sm-10">
+                            <select ng-model="vm.product.categoryId"
+                                    ng-options="category.id as  category.name 
+                                for
+                                 category in  vm.categories"
+                                    class="form-control " 
+                                    ></select>
+
+                        </div>
+                        <label class="col-sm-2 control-label">أختار تصنيف </label>
+
+                 
+                    </div>
+                    <div class="form-group ">
+
+                        <div class="col-sm-10"  ng-if="vm.isNew">
+
+
+                            <input type="text" class="form-control text-right" id="productCode" name="productCode" ng-model="vm.product.productCode">
+                        </div>
+                        <div class="col-sm-10"  ng-if="!vm.isNew">
+
+
+                            <input type="text" class="form-control text-right" disabled id="productCode" name="productCode" ng-model="vm.product.productCode">
+                        </div>
+                        <label class="col-sm-2 control-label" for="productCode">الكود</label>
+                    </div>
+
+
+                    <div class="form-group ">
+
+                        <div class="col-sm-10">
+
+
+                            <input type="text" class="form-control text-right" id="model" name="model" ng-model="vm.product.model">
+                        </div>
+                        <label class="col-sm-2 control-label" for="model">الموديل</label>
+                    </div>
+
+                    <div class="form-group ">
+
+                        <div class="col-sm-10">
+
+
+                            <input type="number" class="form-control text-right" id="size" name="size" ng-model="vm.product.size">
+                        </div>
+                        <label class="col-sm-2 control-label" for="size">الحجم</label>
+                    </div>
+
+                    <div class="form-group ">
+
+                        <div class="col-sm-10">
+
+
+                            <input type="text" class="form-control text-right" id="color" name="color" ng-model="vm.product.color">
+                        </div>
+                        <label class="col-sm-2 control-label" for="color">اللون</label>
+                    </div>
+
+                    <div class="form-group ">
+
+                        <div class="col-sm-10">
+
+
+                            <input type="number" class="form-control text-right" id="price" name="price" ng-model="vm.product.price">
+                        </div>
+                        <label class="col-sm-2 control-label" for="price">السعر</label>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class=" btn btn-default" data-dismiss="modal">إغلاق</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.saveProduct(vm.product)">حفظ</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+
+</div>

@@ -1,0 +1,32 @@
+﻿<section class="mainbar" data-ng-controller="statistic as vm">
+    
+    
+    <div class="well well-lg text-right">
+        <h2 class="blue">
+            {{vm.title}}
+        </h2>
+    </div>
+    <div class="col-md-12">
+        <ul class="today-datas text-center">
+            
+            
+            
+            <li class="{{item.dataclass}}" ng-repeat="item in vm.data">
+                <a href="{{item.link}}">
+                    <div class="pull-left"><i class="{{item.logo}}"></i>
+                    </div>
+                    <div class="datas-text pull-right">
+                        <span class="bold">{{item.name}}</span> {{item.desc}}
+                    </div>
+                    <div class="clearfix"></div>
+                </a>
+            </li>  
+            
+            
+
+          
+
+        </ul>
+       
+    </div>
+</section>

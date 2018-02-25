@@ -1,0 +1,60 @@
+﻿<div id="deleteModal" class="modal fade text-right " role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="left">
+            <button type="button" class="close left" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">حذف {{vm.header.title}}</h3>
+            </div>
+            <div class="panel-body ">
+                <div class="form-group ">
+
+                    <div class="col-sm-10">
+
+
+                        <input type="text" readonly class="form-control text-right" id="name" name="name" ng-model="vm.category.name">
+                    </div>
+                    <label class="col-sm-2 control-label" for="name">التصنيف</label>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class=" btn btn-default" data-dismiss="modal">إغلاق</button>
+                <button type="button" class="btn btn-primary" ng-click="vm.deleteCategory(vm.category.id)">حذف</button>
+            </div>
+        </div>
+        <!-- <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-warning">{{vm.header.title}}</h5>
+                <button type="button" class="close text-left" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div class="form-group ">
+
+                    <div class="col-sm-10">
+
+
+                        <input type="text" class="form-control text-right" id="name" name="name" ng-model="vm.category.name">
+                    </div>
+                    <label class="col-sm-2 control-label" for="name">التصنيف</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class=" btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="vm.saveCategory(vm.category)">Save changes</button>
+            </div>
+        </div>-->
+    </div>
+
+
+
+
+</div>

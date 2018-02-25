@@ -1,0 +1,85 @@
+﻿
+<section class="mainbar" data-ng-controller="product as vm">
+    <div class="container-fluid">       
+        <div class="well well-lg text-right">
+            <h2 class="blue">
+                {{vm.header.title}}
+                <i class="{{vm.header.logo}}"></i>
+            </h2>
+        </div>
+        <div class="alert  alert-notify  text-right" role="alert">
+            {{vm.rowCollection.length>0?vm.message:'لا يوجد نتائج'}}
+        </div>
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>      
+        <div class="col-md-12 text-right" >
+            <button type="button" class="btn    btn-primary" ng-click="vm.createNew()" 
+                    data-toggle="modal" data-target="#myModal"> إضافة صنف جديد 
+                <i class="fa fa-pencil"></i>
+            </button> 
+            <table   st-table="displayedCollection" st-safe-src="vm.rowCollection" class="table table-bordered  table-striped table-hover table-responsive  ">
+                <thead >     
+                <tr>
+                    <th class="col-xs-2 text-right">اللون</th>
+                    <th class="col-xs-1 text-right">الحجم</th>
+                    <th class="col-xs-1 text-right">سعر البيع</th>
+                    <th class="col-xs-2 text-right">الشركة المصنعه</th>
+                    <th class="col-xs-1 text-right">الكمية المتاحة</th>
+                    <th class="col-xs-3 text-right">أسم المنتج</th>
+                    <th class="col-xs-3 text-right">الكود</th>
+                    <th class="col-xs-2 text-right"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-show="vm.rowCollection.length >0" ng-repeat="row in displayedCollection" ng-class="(row.quantity===0) ?'default text-danger':'' ">
+                    <td>  {{row.color}}</td>
+                    <td>  {{row.size}}</td>
+                    <td>  {{row.price}}   جنية </td>
+                    <td>  {{row.model}}</td>
+                    <td >    {{row.quantity>0 ? row.quantity  : 'غير متاح' }}</td>
+                    <td>{{row.productName}}</td>
+                    <td>{{row.productCode | uppercase}}</td>
+                    <td>
+                        <div class="input-group-btn">
+                            <button type="button"
+                                    class="btn btn-danger btn-xs"
+                                    ng-click="vm.getProduct(row.productId)"
+                                    data-toggle="modal"
+                                    data-target="#deleteModal">حذف
+                                <i class="fa fa-remove fa-xs"></i>                      
+                            </button>
+                            <button type="button"
+                                    ng-click="vm.getProduct(row.productId)"
+                                    class="btn btn-primary btn-xs"
+                                    data-toggle="modal"
+                                    data-target="#myModal">تعديل
+                                <i class="fa fa-edit fa-xs"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-hide="vm.rowCollection.length>0">
+                    
+                    <td  colspan="10">
+                        لا يوجد بضائع مسجلة
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="12" class="text-center">
+                        <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>  
+    
+    <div data-ng-include="'/app/controller/data/product/meta/createmodal.html'" ></div>
+    
+    <div data-ng-include="'/app/controller/data/product/meta/deletemodal.html'"></div>
+</section>

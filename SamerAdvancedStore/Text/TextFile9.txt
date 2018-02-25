@@ -1,0 +1,161 @@
+﻿namespace SamerAdvancedStore.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class Initilize : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.Categories",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 90),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Products",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 90),
+                        ProductCode = c.String(nullable: false, maxLength: 12),
+                        Model = c.String(),
+                        Size = c.Int(nullable: false),
+                        Color = c.String(),
+                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        CategoryId = c.Int(nullable: false),
+                     //   Quantity = c.Int(nullable: false),
+                        Avilibility = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Categories", t => t.CategoryId, cascadeDelete: true)
+                .Index(t => t.ProductCode, unique: true)
+                .Index(t => t.CategoryId);
+            Sql(@"CREATE FUNCTION dbo.GetCurrentQuantity(@ProductId INT)
+                RETURNS 
+                INT
+                AS 
+                BEGIN 
+                DECLARE @QuantityPlus INT;  
+                  DECLARE @QuantityMin INT;  
+
+		    	 SELECT  @QuantityPlus=  SUM(ProductIn) ,@QuantityMin=SUM(ProductOut)
+			     FROM (SELECT ProductId,ProductIn,ProductOut FROM dbo.Transactions ) T
+			     WHERE Id=@ProductId
+		    	 group by ProductId
+                 
+               RETURN ISNULL(@QuantityPlus-@QuantityMin,0)
+                End
+    
+            ");
+            Sql(@"ALTER TABLE dbo.Products ADD Quantity AS dbo.GetCurrentQuantity(Id);");
+            CreateTable(
+                "dbo.Transactions",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ProductId = c.Int(nullable: false),
+                        OrderId = c.Int(),
+                        InvintoryId = c.Int(),
+                        State = c.String(nullable: false),
+                       
+                        ProductIn = c.Int(),
+                        ProductOut = c.Int(),
+                        PricePerUnit = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Discount = c.Decimal(precision: 18, scale: 2),
+                        Coast = c.Decimal(precision: 18, scale: 2),
+                        Sold = c.Decimal(precision: 18, scale: 2),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Invintoreys", t => t.InvintoryId)
+                .ForeignKey("dbo.Orders", t => t.OrderId)
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
+                .Index(t => t.ProductId)
+                .Index(t => t.OrderId)
+                .Index(t => t.InvintoryId);
+
+
+     
+
+
+            CreateTable(
+                "dbo.Invintoreys",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        SupplierName = c.String(),
+                        SupplierPhone = c.String(),
+                     //   TotalSum = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        CreatedDate = c.DateTime(nullable: false),
+                        Open = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            Sql(@"CREATE FUNCTION dbo.GetTotalSum(@InvintoryId INT)
+                RETURNS 
+                DECIMAL(18,2) 
+                AS 
+                BEGIN 
+                DECLARE @TotalSum Decimal(18,2);  
+                
+		    	 SELECT  @TotalSum=  SUM(Coast) 
+			     FROM (SELECT Coast,InvintoryId FROM dbo.Transactions ) T
+			     WHERE InvintoryId=@InvintoryId
+		    	 group by InvintoryId
+                 
+               RETURN ISNULL(@TotalSum,0)
+                End
+    
+            ");
+            Sql(@"ALTER TABLE dbo.Invintoreys ADD TotalSum AS dbo.GetTotalSum(Id);");
+            CreateTable(
+                "dbo.Orders",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ClientName = c.String(maxLength: 90),
+                        OrderDate = c.DateTime(nullable: false),
+                        Open = c.Boolean(nullable: false),
+                     //   TotalPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                    })
+                .PrimaryKey(t => t.Id);
+            Sql(@"CREATE FUNCTION dbo.GetTotalOrder(@OrderId INT)
+            RETURNS
+            decimal(18,2)
+            AS
+                BEGIN
+            DECLARE @TotalOrder decimal(18,2) ;
+
+            SELECT @TotalOrder = sum(Coast) FROM dbo.Transactions  
+
+            WHERE OrderId = @OrderId
+
+                RETURN ISNULL(@TotalOrder, 0)
+            End");
+            Sql(" ALTER TABLE dbo.Orders ADD TotalPrice AS (dbo.GetTotalOrder(Id))");
+
+
+        }
+
+        public override void Down()
+        {
+            DropForeignKey("dbo.Products", "CategoryId", "dbo.Categories");
+            DropForeignKey("dbo.Transactions", "ProductId", "dbo.Products");
+            DropForeignKey("dbo.Transactions", "OrderId", "dbo.Orders");
+            DropForeignKey("dbo.Transactions", "InvintoryId", "dbo.Invintoreys");
+            DropIndex("dbo.Transactions", new[] { "InvintoryId" });
+            DropIndex("dbo.Transactions", new[] { "OrderId" });
+            DropIndex("dbo.Transactions", new[] { "ProductId" });
+            DropIndex("dbo.Products", new[] { "CategoryId" });
+            DropIndex("dbo.Products", new[] { "ProductCode" });
+            DropTable("dbo.Orders");
+            DropTable("dbo.Invintoreys");
+            DropTable("dbo.Transactions");
+            DropTable("dbo.Products");
+            DropTable("dbo.Categories");
+        }
+    }
+}

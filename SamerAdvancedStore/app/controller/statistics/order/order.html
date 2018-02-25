@@ -1,0 +1,89 @@
+﻿<section class="mainbar text-right" data-ng-controller="staticorder as vm">
+
+    <table  st-table="displayedCollection" st-safe-src="vm.rowCollection"
+            class="table table-bordered  table-striped table-hover table-responsive  ">
+        <thead>
+
+        <tr>
+            <th class="col-lg-2 text-right">ربح/ خسارة</th>
+            <th class="col-lg-1 text-right">سعر البيع</th>
+            <th class="col-lg-1 text-right">تكلفة المنتجات</th>
+            <th   class="col-lg-2 text-right">تاريخ الفاتورة</th>
+            <th class="col-lg-4 text-right">أسم العميل</th>
+            <th class="col-lg-2" print-remove >  </th>
+
+
+
+
+        </tr>
+        </thead>
+
+        <tbody>
+    
+        <tr ng-show="vm.rowCollection.length >0" ng-repeat="row in displayedCollection ">
+            <td>
+                <div class="fa fa-2x">
+                    <h2>
+                        <span ng-class="{'label label-success label-profit': row.totalOrderProfit  > 0  ,'label label-danger label-profit': row.totalOrderProfit <0  }">
+
+                            {{row.totalOrderProfit|number :2 }} ج
+                        </span>
+                    </h2>
+                </div>
+            </td>
+            <td>
+                {{row.orderNet | number :2}}
+
+            </td>
+            <td>
+                {{row.totalOrderCoast |number :2}}
+
+            </td>
+
+
+            <td>
+                {{row.orderDate | date:"dd-MM-yyyy"}}
+            </td>
+
+            <td>
+
+                <div class="text-center">
+
+                    {{row.clientName}}
+
+
+                </div>
+
+
+
+            </td>
+            <td>
+                <button class="btn btn-primary"  
+                        ng-click="vm.getSelectedRow(row)"
+                        data-toggle="modal" 
+                        data-target="#myModal">
+
+                    <i class="fa fa-info"></i>
+                    تفاصيل
+                </button>
+            </td>
+
+
+        </tr>
+        <tr ng-hide="vm.rowCollection.length>0" print-remove>
+
+            <td colspan="10">
+                لا يوجد بضائع مسجلة
+            </td>
+        </tr>
+        </tbody>
+        <tfoot ng-if="vm.data.invintory.open">
+        <tr>
+            <td colspan="10" class="text-center">
+                <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+    <div data-ng-include="'/app/controller/statistics/order/meta/infomodal.html'" ></div>
+</section>

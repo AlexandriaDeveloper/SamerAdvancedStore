@@ -1,0 +1,132 @@
+﻿<section class="mainbar" data-ng-controller="staticInvintroy as vm">
+    <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+        <div data-cc-spinner>
+            
+        </div>
+        <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+    </div>
+    <table st-table="displayedCollection"
+           st-safe-src="vm.rowCollection"
+           class="table table-bordered  table-striped table-hover table-responsive  ">
+        <thead>
+
+        <tr>
+            <th class="col-xs-2 text-right">المكسب / خسارة</th>
+            <th class="col-xs-2  text-right">الكمية المتاحة</th>
+            <th class="col-xs-6 text-right">أسم المنتج</th>
+            <th class="col-xs-2 text-right">كود المنتج</th>
+            <th class="col-xs-1 text-right"></th>
+
+        </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div class="input-group-sm">
+
+                        <input type="text"
+                               class="form-control text-center input-search"
+                               st-search="{{vm.quantityPredicate}}"
+                               placeholder="الكمية المتاحة">
+                    </div>
+
+                </td>
+                <td>
+                    <div class="input-group-sm">
+
+                        <input type="text"
+                               class="form-control text-center input-search"
+                               st-search="{{vm.namePredicate}}"
+                               placeholder="البحث بالأسم">
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group-sm">
+                        <input type="text"
+                               class="form-control text-center input-search"
+                               st-search="{{vm.codePredicate}}"
+                               placeholder="البحث بالكود">
+                    </div>
+                </td>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-show="vm.rowCollection.length >0" ng-repeat="row in displayedCollection">
+                <td >       
+                    <div class="fa fa-3x">                      
+                        <h1>
+                            <span ng-class="{'label label-success label-profit':row.totalProfitLoss > 0  ,'label label-danger label-profit':row.totalProfitLoss <0  }">
+                                {{row.totalProfitLoss |number :2}}
+                            </span>
+                        </h1>
+                    </div>             
+                </td>
+                <td>{{row.productQuantity >0?row.productQuantity: 'البضاعة غير متاحة'}}</td>
+                <td>
+                    <div data-toggle="collapse"
+                         data-target="#collapseExample{{$index}}"
+                         aria-expanded="false"
+                         aria-controls="collapseExample">
+                        {{row.productName }}
+                    </div>
+                    <div class="panel  panel-primary  panelgrid">
+                    
+                        <div class="panel-body collapse" id="collapseExample{{$index}}">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    الموديل : {{row.model?row.model:'لا يوجد '}}
+                                </li>
+                                <li class="list-group-item">
+                                    الحجم : {{row.size ?row.size:'لا يوجد '}}
+                                </li>
+                                <li class="list-group-item">
+                                    اللون : {{row.color  ?row.color:'لا يوجد '}}
+                                </li>
+                                <li class="list-group-item">
+                                    سعر البيع : {{row.pricePerUnit}}
+                                </li>
+                            
+                            </ul>
+
+
+
+                        </div>
+                        <!--<div class="panel-footer">
+                            {{row.pricePerUnit|number:2}}
+
+                        </div>-->
+                    </div>
+
+
+
+                </td>
+                <td> {{row.productCode | uppercase}}</td>
+
+                <td>
+                    <a href="#/statistics/profit/{{row.productId}}" class="btn btn-primary" >الحسبه</a>
+                    
+                    
+
+                </td>
+
+
+
+
+            </tr>
+            <tr ng-hide="vm.rowCollection.length>0">
+
+                <td colspan="10">
+                    لا يوجد بضائع مسجلة
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-center">
+                    <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+</section>

@@ -1,0 +1,178 @@
+﻿
+<section class="mainbar" print-section data-ng-controller="orderDetails as vm">
+
+    <div  data-ng-include="'/app/layout/printtitle.html'"></div>
+    
+
+    <div class="container-fluid">
+
+        <div class="panel panel-primary text-right">
+            <div class="panel-heading">
+                <h1 class="panel-title"> فاتورة بيع  : {{vm.data.order.clientName}} </h1>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+
+                        أسم العميل : {{vm.data.order.clientName}}
+                    </li>
+                  
+
+                    <li class="list-group-item">
+                        تاريخ أمر البيع : {{vm.data.order.orderDate | date:'dd-MM-yyyy'}}
+
+                    </li>
+
+                    <li print-remove class="list-group-item">
+                       حالة الفاتورة : {{vm.data.order.open ?'تحت التجهيز': 'مغلق'}}
+
+                    </li>
+                    <li class="list-group-item">
+                        <hr/>
+                       اجمالى فاتورة البيع  : {{vm.data.order.totalPrice |number :2}} جنيه
+                        <hr/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+
+        <div class="col-md-12 text-right">
+            <button type="button" class="btn    btn-primary" ng-click="vm.createNew()" ng-show="vm.data.order.open"
+                    data-toggle="modal" data-target="#myModal">
+                إضافة سلعه
+                <i class="fa fa-pencil"></i>
+            </button>
+            <button type="button" class="btn    btn-success" ng-click="vm.close()" ng-show="vm.data.order.open">
+                إغلاق فاتورة بيع
+                <i class="fa fa-pencil"></i>
+            </button>
+            <button type="button" class="btn    btn-default" print-remove ng-click="" print-btn ng-hide="vm.data.order.open">
+
+                طباعه
+                <i class="fa fa-print"></i>
+            </button>
+            <table st-table="displayedCollection" st-safe-src="vm.rowCollection"
+                   class="table table-bordered  table-striped table-hover table-responsive  ">
+                <thead>
+
+                <tr>
+                    <th class="col-lg-2 text-right">المبلغ</th>
+                    <th class="col-lg-2 text-right">الكمية</th>
+                    <th class="col-lg-6 text-right">اسم المنتج</th>
+                    <th class="col-lg-6 text-right">كود المنتج</th>
+                    <th class="col-lg-2" print-remove ng-if="vm.data.order.open">  </th>
+
+
+
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-show="vm.rowCollection.length >0" ng-repeat="row in displayedCollection">
+
+
+
+                    <td>
+
+                        <div class="text-center">
+
+                            L.E {{row.sold |number :2}}
+
+
+                        </div>
+
+
+
+                    </td>
+                    <td>
+                        {{row.productOut}}
+                    </td>
+                    <td>
+                        <div class="" data-toggle="collapse"
+                             data-target="#collapseExample{{$index}}"
+                             aria-expanded="false" 
+                             aria-controls="collapseExample">
+                            {{row.productName}}
+                        </div>
+                        <div class="panel-body collapse"  id="collapseExample{{$index}}">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        الموديل : {{row.model}}
+                                    </li>
+                                    <li class="list-group-item">
+                                        الحجم : {{row.size}}
+                                    </li>
+                                    <li class="list-group-item">
+                                        اللون : {{row.color}}
+                                    </li>
+                                </ul>
+                        </div>
+
+
+
+
+                    </td>
+                    <td>
+                        {{row.productCode |uppercase}}
+              
+                    </td>
+                    <td print-remove ng-if="vm.data.order.open">
+                        
+                        
+                   
+                        <div class="input-group-btn"ng-if="vm.data.order.open">
+
+
+                            <button type="button"
+                                    class="btn btn-danger btn-xs"
+                                    ng-click="vm.getProductData(row)"
+                                    data-toggle="modal"
+                                    data-target="#deleteModal">
+                                حذف
+                                <i class="fa fa-remove fa-xs"></i>
+                            </button>
+                            <button type="button"
+                                    ng-click="vm.getProductData(row)"
+                                    class="btn btn-primary btn-xs"
+                                    data-toggle="modal"
+                                    data-target="#myModal">
+                                تعديل
+
+                            </button>
+                        </div>
+                    </td>
+                 
+
+                </tr>
+                <tr ng-hide="vm.rowCollection.length>0" print-remove>
+
+                    <td colspan="10">
+                        لا يوجد بضائع مسجلة
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot ng-if="vm.data.invintory.open">
+                <tr>
+                    <td colspan="10" class="text-center">
+                        <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+    <div data-ng-include="'/app/controller/selles/order/orderDetails/meta/createmodal.html'"></div>
+
+    <div data-ng-include="'/app/controller/selles/order/orderDetails/meta/deletemodal.html'"></div>
+</section>

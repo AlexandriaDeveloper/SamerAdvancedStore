@@ -1,0 +1,190 @@
+﻿<div id="myModal" class="modal fade text-right " role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="left">
+            <button type="button" class="close left" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="panel panel-default">
+            <form class="form-horizontal" role="form" name="myForm" novalidate>
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{vm.header.title}}</h3>
+                </div>
+                <div class="panel-body">
+
+
+
+                    <div class="form-group ">
+                        <div class="col-sm-2">
+                            <button class="btn btn-primary btn-sm" ng-click="vm.getProductByCode(vm.code)">بحث بالكود</button>
+                        </div>
+                        <div class="col-sm-8">
+
+
+                            <input type="text" class="form-control text-right" id="porductbycode" name="porductbycode" ng-model="vm.code">
+                        </div>
+                        <label class=" control-label" for="porductbycode">كود السلعه</label>
+                    </div>
+
+
+
+                    <div class="form-group ">
+
+                        <div class="col-sm-10">
+
+
+                            <input type="text" disabled class="form-control text-right" id="name" name="name" ng-model="vm.product.productName">
+                        </div>
+                        <label class="col-sm-2 control-label" for="name">أسم المنتج</label>
+                    </div>
+
+
+                    <div class="form-group ">
+
+
+                        <div class="col-sm-10">
+
+
+                            <input type="text" disabled class="form-control text-right"  id="productCode" name="productCode" ng-model="vm.product.productCode">
+                        </div>
+                        <label class="col-sm-2 control-label" for="productCode">الكود</label>
+                    </div>
+
+
+                    <div class="form-group ">
+
+                        <div class="col-sm-10">
+
+
+                            <input type="text" disabled class="form-control text-right" id="model" name="model" ng-model="vm.product.model">
+                        </div>
+                        <label class="col-sm-2 control-label" for="model">الموديل</label>
+                    </div>
+
+                    <div class="form-group ">
+
+                        <div class="col-sm-10">
+
+
+                            <input type="number" disabled class="form-control text-right" id="size" name="size" ng-model="vm.product.size">
+                        </div>
+                        <label class="col-sm-2 control-label" for="size">الحجم</label>
+                    </div>
+
+                    <div class="form-group ">
+
+                        <div class="col-sm-10">
+
+
+                            <input type="text" disabled class="form-control text-right" id="color" name="color" ng-model="vm.product.color">
+                        </div>
+                        <label class="col-sm-2 control-label" for="color">اللون</label>
+                    </div>
+                    <div class="form-group " >
+
+                        <div class="col-sm-10">
+
+
+                            <input type="number" 
+                                   disabled  
+                                   class="form-control text-right" 
+                                   id="quantity" 
+                                   name="quantity"
+                                   ng-model="vm.product.quantity">
+                        </div>
+                        <label class="col-sm-2 control-label" for="quantity">الكمية المتاحة</label>
+                    </div>
+                    <div class="form-group " >
+
+                        <div class="col-sm-10">
+
+
+                            <input type="number"
+                                   disabled 
+                                   class="form-control text-right" 
+                                   id="price" 
+                                   name="price" 
+                                   ng-model="vm.orderDetails.price">
+                        </div>
+                        <label class="col-sm-2 control-label" for="price">السعر</label>
+                    </div>
+           
+                    <div class="panel ">
+                        
+                        
+                        <div class="form-group " >
+
+                            <div class="col-sm-10">
+
+
+                                <input type="number" 
+                                       min="1" 
+                                       max="{{vm.product.quantity+vm.orderDetails.productOut}}"
+                                       ng-max="vm.product.quantity+vm.orderDetails.productOut" 
+                                       ng-maxlength="vm.product.quantity +vm.orderDetails.productOut"
+                                       class="form-control text-right" 
+                                       required
+                                       id="quantity" 
+                                       name="quantity" 
+                                       ng-model="vm.orderDetails.quantity">
+                            </div>
+                            <label class="col-sm-2 control-label" for="quantity">الكمية</label>
+                        </div>
+              
+                        <div class="form-group " ng-if="vm.orderDetails.quantity">
+
+                            <div class="col-sm-10">
+
+                  
+                                <input type="number" min="0" class="form-control text-right" 
+                                       id="discount" 
+                                       name="discount" 
+                                       ng-model="vm.orderDetails.discount">
+                            </div>
+                            <label class="col-sm-2 control-label" for="discount">خصم</label>
+                        </div>
+                        <div class="form-group " ng-if="vm.orderDetails.quantity">
+
+                            <div class="col-sm-10">
+
+
+                                <label class="control-label text-center"
+                                       id="sold"
+                                       name="sold">
+                                    {{(vm.orderDetails.price * vm.orderDetails.quantity)  -vm.orderDetails.discount }}
+                                </label>
+                            </div>
+                            <label class="col-sm-2 control-label" for="sold">الفاتورة</label>
+                        </div>
+
+                    </div>
+                    <input type="hidden"  
+                           class="form-control text-right" 
+                           id="id" name="id"  ng-model="vm.orderDetails.id">
+                    <input type="hidden"  class="form-control text-right" id="productId" name="productId" ng-model="vm.product.productId">
+                    <input type="hidden" 
+                           id="sold" 
+                           name="sold" 
+                           ng-model="vm.orderDetails.sold">
+                </div>
+
+
+
+       
+
+                <div class="panel-footer">
+                    <button type="button" class=" btn btn-default" data-dismiss="modal">إغلاق</button>
+                    <button type="button" class="btn btn-primary"
+                            ng-disabled="myForm.$invalid" 
+                            ng-click="vm.saveOrderDetails(vm.orderDetails)">حفظ</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
